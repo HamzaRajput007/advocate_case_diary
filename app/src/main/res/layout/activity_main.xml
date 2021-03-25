@@ -87,6 +87,13 @@
             android:layout_marginBottom="25dp"
             android:inputType="textPassword" />
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/progressbarId"
+            android:visibility="gone"/>
+
         <Button
             android:id="@+id/loginBtnID"
             android:layout_width="wrap_content"
