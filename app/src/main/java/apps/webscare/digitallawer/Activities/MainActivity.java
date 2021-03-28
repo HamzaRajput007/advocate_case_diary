@@ -9,9 +9,12 @@ import android.net.wifi.hotspot2.pps.HomeSp;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +22,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import apps.webscare.digitallawer.R;
@@ -34,16 +38,21 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     FirebaseAuth mAuth;
     FirebaseFirestore mFirestore;
+    Spinner accountTypeSpinner;
+
+    String uId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
         emailET = findViewById(R.id.emailEditTextID);
         passwordET = findViewById(R.id.passwordEditTextID);
         signUpBtn = findViewById(R.id.signUpTextViewId);
         btnLogin = findViewById(R.id.loginBtnID);
         progressBar = findViewById(R.id.progressbarId);
+
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,6 +77,16 @@ public class MainActivity extends AppCompatActivity {
                     mAuth.signInWithEmailAndPassword(emailET.getText().toString() , passwordET.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
+                            uId = mAuth.getCurrentUser().getUid();
+                            mFirestore.collection("Users").document(uId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    String accountType = documentSnapshot.getString("type") ;
+//                                    String[] accountTypes = {"--Select Account Type--","Customer" , "Advocate" , "Admin"};
+
+                                }
+                            });
+
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(MainActivity.this, "User Logged In Successfully", Toast.LENGTH_SHORT).show();
                             Intent toHome = new Intent(MainActivity.this , ClientHome.class);

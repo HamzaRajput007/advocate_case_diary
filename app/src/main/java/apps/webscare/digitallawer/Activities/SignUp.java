@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +40,9 @@ public class SignUp extends AppCompatActivity {
     FirebaseFirestore mFireStore;
     ProgressBar progressBar;
 
-    String phone , name ;
+    String phone , name  , accountType ;
     String uID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,6 @@ public class SignUp extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mFireStore = FirebaseFirestore.getInstance();
-
         emailET = findViewById(R.id.emailEditTextID);
         passwordET = findViewById(R.id.passwordEditTextID);
         loginText = findViewById(R.id.signUpTextViewId);
@@ -55,7 +58,6 @@ public class SignUp extends AppCompatActivity {
         phoneNumberET = findViewById(R.id.phoneNumberEditTextID);
         fullNameET = findViewById(R.id.nameEditTextID);
         progressBar = findViewById(R.id.progressbarId);
-
 
         loginText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +101,11 @@ public class SignUp extends AppCompatActivity {
                                 userDetailsMap.put("name" , name);
                                 userDetailsMap.put("phone" , phone);
 
-                                mFireStore.collection("Users_Data").document(uID).set(userDetailsMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                if (!accountType.equals("--Select Account Type--")){
+                                    userDetailsMap.put("type" , accountType);
+                                }
+
+                                mFireStore.collection("Users").document(uID).set(userDetailsMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Toast.makeText(SignUp.this, "Loaded Users Data in FireStore", Toast.LENGTH_SHORT).show();
@@ -107,7 +113,7 @@ public class SignUp extends AppCompatActivity {
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(SignUp.this, "Failed to load data to FireStore", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(SignUp.this, "Failed FireStore : " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
