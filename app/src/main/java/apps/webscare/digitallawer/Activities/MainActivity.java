@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent toHome = new Intent(MainActivity.this , ClientHome.class);
                             startActivity(toHome);
                             finish();
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
