@@ -62,40 +62,6 @@ public class AdvocatesList extends AppCompatActivity {
         advocatesRecyclerView.setHasFixedSize(true);
         advocatesAdapter = new AdvocatesAdapter(advocatesList , this);
         advocatesRecyclerView.setAdapter(advocatesAdapter);
-      // TODO implemet recycler view
 
-
-            /*  @Override
-            public void onBindViewHolder(AdvocateViewHolder holder, int position, AdvocatesList model) {
-
-                holder.name.setText(model.);
-
-            }
-
-            @Override
-            public AdvocateViewHolder onCreateViewHolder(ViewGroup group, int i) {
-                // Using a custom layout called R.layout.message for each item, we create a new instance of the viewholder
-                View view = LayoutInflater.from(group.getContext())
-                        .inflate(R.layout.advocate_item_layout, group, false);
-
-                return new AdvocateViewHolder(view);
-            }*/
     }
-
-
-       /* mFireStore.collection("Advocates").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()){
-
-                }
-            }
-        });
-
-        mFireStore.collection("Advocates").document().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-            }
-        });*/
 }
