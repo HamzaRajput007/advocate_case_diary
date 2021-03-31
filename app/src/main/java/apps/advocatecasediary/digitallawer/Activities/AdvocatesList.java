@@ -1,4 +1,4 @@
-package apps.webscare.digitallawer.Activities;
+package apps.advocatecasediary.digitallawer.Activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,14 +13,13 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import apps.webscare.digitallawer.Adapters.AdvocatesAdapter;
-import apps.webscare.digitallawer.Models.AdvocateModel;
-import apps.webscare.digitallawer.R;
+import apps.advocatecasediary.digitallawer.Adapters.AdvocatesAdapter;
+import apps.advocatecasediary.digitallawer.Models.AdvocateModel;
+import apps.advocatecasediary.digitallawer.R;
 
 public class AdvocatesList extends AppCompatActivity {
 

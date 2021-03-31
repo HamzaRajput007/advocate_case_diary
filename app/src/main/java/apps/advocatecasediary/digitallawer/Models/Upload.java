@@ -1,4 +1,4 @@
-package apps.webscare.digitallawer.Models;
+package apps.advocatecasediary.digitallawer.Models;
 public class Upload {
 
     public String name;

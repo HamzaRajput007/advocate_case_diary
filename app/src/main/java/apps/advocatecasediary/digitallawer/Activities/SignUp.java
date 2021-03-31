@@ -30,7 +30,8 @@ import org.w3c.dom.Text;
 import java.util.HashMap;
 import java.util.Map;
 
-import apps.webscare.digitallawer.R;
+import apps.advocatecasediary.digitallawer.Activities.MainActivity;
+import apps.advocatecasediary.digitallawer.R;
 
 public class SignUp extends AppCompatActivity {
     EditText emailET  , passwordET , phoneNumberET , fullNameET;

@@ -1,4 +1,4 @@
-package apps.webscare.digitallawer;
+package apps.advocatecasediary.digitallawer;
 
 import android.content.Context;
 

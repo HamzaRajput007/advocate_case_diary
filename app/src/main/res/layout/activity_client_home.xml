@@ -13,19 +13,33 @@
         android:layout_gravity="center_horizontal"
         android:src="@drawable/logo" />
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressbarId"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:gravity="center"
-        android:layout_height="150dp">
+        android:id="@+id/documentlayoutId"
+        android:visibility="gone"
+        android:background="@drawable/square"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="50dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:gravity="center"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="20dp"
+                android:src="@drawable/pdf_thumbnail"
                 android:layout_height="20dp"/>
 
             <TextView
@@ -34,8 +48,6 @@
                 android:text="Demo Text"
                 android:id="@+id/scheleFileNameTextViewId"/>
         </LinearLayout>
-
-
 
     </LinearLayout>
 
@@ -61,5 +73,18 @@
         android:text="Download Schedule"
         android:textColor="@color/white"
         android:background="@drawable/golden_btn_bg"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log out"
+        android:background="@drawable/gradient_btn_bg"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:id="@+id/logoutBtnID"
+        android:layout_gravity="end"
+        android:layout_margin="20dp"/>
 
 </LinearLayout>

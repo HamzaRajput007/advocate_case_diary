@@ -1,10 +1,10 @@
-package apps.webscare.digitallawer.Activities;
+package apps.advocatecasediary.digitallawer.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import apps.webscare.digitallawer.R;
+import apps.advocatecasediary.digitallawer.R;
 
 public class ViewSchedule extends AppCompatActivity {
 

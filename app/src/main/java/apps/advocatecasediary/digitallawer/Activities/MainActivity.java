@@ -1,16 +1,12 @@
-package apps.webscare.digitallawer.Activities;
+package apps.advocatecasediary.digitallawer.Activities;
 
-import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.wifi.hotspot2.pps.HomeSp;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -25,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import apps.webscare.digitallawer.R;
+import apps.advocatecasediary.digitallawer.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toSignup = new Intent(MainActivity.this , SignUp.class);
+                Intent toSignup = new Intent(MainActivity.this , apps.webscare.digitallawer.Activities.SignUp.class);
                 startActivity(toSignup);
                 finish();
             }

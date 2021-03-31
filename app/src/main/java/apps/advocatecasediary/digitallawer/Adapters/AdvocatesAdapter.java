@@ -1,4 +1,4 @@
-package apps.webscare.digitallawer.Adapters;
+package apps.advocatecasediary.digitallawer.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import apps.webscare.digitallawer.Models.AdvocateModel;
-import apps.webscare.digitallawer.R;
+import apps.advocatecasediary.digitallawer.Models.AdvocateModel;
+import apps.advocatecasediary.digitallawer.R;
 
 public class AdvocatesAdapter extends RecyclerView.Adapter<AdvocatesAdapter.AdvocateViewHolder> {
 

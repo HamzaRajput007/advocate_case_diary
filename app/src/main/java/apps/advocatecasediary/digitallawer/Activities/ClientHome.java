@@ -1,5 +1,6 @@
-package apps.webscare.digitallawer.Activities;
+package apps.advocatecasediary.digitallawer.Activities;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,10 +9,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,26 +28,37 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 
-import apps.webscare.digitallawer.Constants;
-import apps.webscare.digitallawer.Models.Upload;
-import apps.webscare.digitallawer.R;
+import apps.advocatecasediary.digitallawer.Constants;
+import apps.advocatecasediary.digitallawer.Models.Upload;
+import apps.advocatecasediary.digitallawer.R;
 
 public class ClientHome extends AppCompatActivity {
-    Button goToAdvocateListBtn, goToScheduleBtn;
+    Button goToAdvocateListBtn, goToScheduleBtn , logOutBtn;
     FirebaseStorage storage;
+    LinearLayout scheduleLayout;
+    TextView scheduleNameTextView;
+
 
     //database reference to get uploads data
     DatabaseReference mDatabaseReference;
+
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_home);
 
+        goToAdvocateListBtn = findViewById(R.id.insertAdvocateBtnID);
+        goToScheduleBtn = findViewById(R.id.updateSchedule);
+        logOutBtn = findViewById(R.id.logoutBtnID);
+        scheduleLayout = findViewById(R.id.documentlayoutId);
+        scheduleNameTextView = findViewById(R.id.scheleFileNameTextViewId);
+
         storage = FirebaseStorage.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         StorageReference storageRef = storage.getReference();
-
         mDatabaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS);
 
         //retrieving upload data from firebase database
@@ -53,6 +68,9 @@ public class ClientHome extends AppCompatActivity {
                     Upload upload = dataSnapshot.getValue(Upload.class);
                     if (upload != null) {
                         Toast.makeText(ClientHome.this, "Schedule Downloaded Successfully", Toast.LENGTH_SHORT).show();
+
+                        scheduleLayout.setVisibility(View.VISIBLE);
+
                     }
             }
 
@@ -95,9 +113,16 @@ public class ClientHome extends AppCompatActivity {
             }
         });
 
-        goToAdvocateListBtn = findViewById(R.id.insertAdvocateBtnID);
-        goToScheduleBtn = findViewById(R.id.updateSchedule);
 
+        logOutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                Intent toLogin = new Intent(ClientHome.this , MainActivity.class);
+                startActivity(toLogin);
+                finish();
+            }
+        });
         goToAdvocateListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

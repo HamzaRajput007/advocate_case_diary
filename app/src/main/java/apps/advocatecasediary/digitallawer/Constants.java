@@ -1,4 +1,4 @@
-package apps.webscare.digitallawer;
+package apps.advocatecasediary.digitallawer;
 
 public class Constants {
     public static final String STORAGE_PATH_UPLOADS = "uploads/";
