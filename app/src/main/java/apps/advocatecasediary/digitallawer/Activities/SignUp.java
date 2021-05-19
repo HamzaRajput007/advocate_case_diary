@@ -1,4 +1,4 @@
-package apps.webscare.digitallawer.Activities;
+package apps.advocatecasediary.digitallawer.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -102,9 +102,9 @@ public class SignUp extends AppCompatActivity {
                                 userDetailsMap.put("name" , name);
                                 userDetailsMap.put("phone" , phone);
 
-                                if (!accountType.equals("--Select Account Type--")){
+                               /* if (!accountType.equals("--Select Account Type--")){
                                     userDetailsMap.put("type" , accountType);
-                                }
+                                }*/
 
                                 mFireStore.collection("Users").document(uID).set(userDetailsMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -117,6 +117,8 @@ public class SignUp extends AppCompatActivity {
                                         Toast.makeText(SignUp.this, "Failed FireStore : " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
+
+                                Intent toHome = new Intent(SignUp.this , ClientHome.class);
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {

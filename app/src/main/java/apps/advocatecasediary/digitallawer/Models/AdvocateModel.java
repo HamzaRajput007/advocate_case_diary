@@ -2,7 +2,9 @@ package apps.advocatecasediary.digitallawer.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AdvocateModel {
+public class AdvocateModel extends UserId {
+
+
 
     public String getPhone_number() {
         return phone_number;
@@ -15,6 +17,19 @@ public class AdvocateModel {
     @SerializedName("phone_number")
     @Expose
     private String phone_number;
+
+
+    @SerializedName("image_url")
+    @Expose
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     @SerializedName("city")
     @Expose
@@ -35,12 +50,22 @@ public class AdvocateModel {
     @Expose
     private String type;
 
+    public String userId;
+
     public String getCity() {
         return city;
     }
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getCnic() {

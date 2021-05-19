@@ -1,48 +1,40 @@
 package apps.advocatecasediary.digitallawer.Activities;
 
-import androidx.annotation.MainThread;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.io.IOException;
-
-import apps.advocatecasediary.digitallawer.Constants;
-import apps.advocatecasediary.digitallawer.Models.Upload;
+import apps.advocatecasediary.digitallawer.Models.ScheduleModel;
 import apps.advocatecasediary.digitallawer.R;
 
 public class ClientHome extends AppCompatActivity {
-    Button goToAdvocateListBtn, goToScheduleBtn , logOutBtn;
+
+    Button goToAdvocateListBtn, downloadScheduleBtn, logOutBtn;
     FirebaseStorage storage;
     LinearLayout scheduleLayout;
     TextView scheduleNameTextView;
 
-
     //database reference to get uploads data
     DatabaseReference mDatabaseReference;
-
+    ScheduleModel scheduleModel;
     FirebaseAuth mAuth;
+    FirebaseFirestore mFirestore;
+
+    SharedPreferences sharedPreferences;
+
+    String donwloadUrl = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +42,54 @@ public class ClientHome extends AppCompatActivity {
         setContentView(R.layout.activity_client_home);
 
         goToAdvocateListBtn = findViewById(R.id.insertAdvocateBtnID);
-        goToScheduleBtn = findViewById(R.id.updateSchedule);
+        downloadScheduleBtn = findViewById(R.id.updateScheduleDownload);
         logOutBtn = findViewById(R.id.logoutBtnID);
-        scheduleLayout = findViewById(R.id.documentlayoutId);
+//        scheduleLayout = findViewById(R.id.documentlayoutId);
         scheduleNameTextView = findViewById(R.id.scheleFileNameTextViewId);
+
+        sharedPreferences = getSharedPreferences(MainActivity.mySharedPreference , Context.MODE_PRIVATE);
+
 
         storage = FirebaseStorage.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
 
-        StorageReference storageRef = storage.getReference();
+       /* scheduleLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent toDownloadFile = new Intent(Intent.ACTION_VIEW);
+                toDownloadFile.setData(Uri.parse(donwloadUrl));
+                startActivity(toDownloadFile);
+            }
+        });*/
+        downloadScheduleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               /* mFirestore.collection("Schedules").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                        for (DocumentChange documentChange : value.getDocumentChanges()){
+                            if (documentChange.getType() == DocumentChange.Type.ADDED){
+                                HashMap<String , Object> schduleHasMap = (HashMap<String, Object>) documentChange.getDocument().getData();
+                                       scheduleModel = documentChange.getDocument().toObject(ScheduleModel.class);
+                                       if (scheduleModel != null) {
+                                           scheduleNameTextView.setText(scheduleModel.getName() + ".pdf");
+//                                           scheduleLayout.setVisibility(View.VISIBLE);
+                                           donwloadUrl = schduleHasMap.get("image_url").toString();
+                                       }
+                            }
+                        }
+                    }
+                });*/
+
+                Intent toDownloadSchedule = new Intent(ClientHome.this , DownloadSchedule.class);
+                startActivity(toDownloadSchedule);
+            }
+        });
+
+     /*   StorageReference storageRef = storage.getReference();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS);
 
         //retrieving upload data from firebase database
@@ -80,10 +111,10 @@ public class ClientHome extends AppCompatActivity {
                 Toast.makeText(ClientHome.this, "Failed    " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
-        });
+        });*/
 
 // Create a reference with an initial file path and name
-        StorageReference pathReference = storageRef.child("uploads/Schedule.pdf");
+//        StorageReference pathReference = storageRef.child("uploads/Schedule.pdf");
 
 // Create a reference to a file from a Google Cloud Storage URI
 //        StorageReference gsReference = storage.getReferenceFromUrl("gs://bucket/uploads/Schedule.pdf");
@@ -92,7 +123,7 @@ public class ClientHome extends AppCompatActivity {
 // Note that in the URL, characters are URL escaped!
 //        StorageReference httpsReference = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/b/bucket/o/uploads%20Schedule.pdf");
 
-        pathReference = storageRef.child("uploads/Schedule.pdf");
+        /*pathReference = storageRef.child("uploads/Schedule.pdf");
 
         File localFile = null;
         try {
@@ -111,13 +142,16 @@ public class ClientHome extends AppCompatActivity {
             public void onFailure(@NonNull Exception exception) {
                 Toast.makeText(ClientHome.this, "Failed to download Schedule File", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
 
         logOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAuth.signOut();
+//                mAuth.signOut();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(MainActivity.isLoggedIn , false);
+                editor.commit();
                 Intent toLogin = new Intent(ClientHome.this , MainActivity.class);
                 startActivity(toLogin);
                 finish();
@@ -131,11 +165,11 @@ public class ClientHome extends AppCompatActivity {
             }
         });
 
-        goToScheduleBtn.setOnClickListener(new View.OnClickListener() {
+        /*downloadScheduleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
-        });
+        });*/
     }
 }

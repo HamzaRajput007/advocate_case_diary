@@ -3,7 +3,9 @@ package apps.advocatecasediary.digitallawer.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.concurrent.ConcurrentLinkedDeque;
+
 import apps.advocatecasediary.digitallawer.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,12 +35,31 @@ public class MainActivity extends AppCompatActivity {
     EditText emailET  , passwordET;
     Button btnLogin;
     TextView signUpBtn;
+    TextView forgotPasswordTv;
     ProgressBar progressBar;
     FirebaseAuth mAuth;
     FirebaseFirestore mFirestore;
     Spinner accountTypeSpinner;
+    SharedPreferences sharedPreferences;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        sharedPreferences = getSharedPreferences(mySharedPreference , Context.MODE_PRIVATE);
+        boolean isloggin = sharedPreferences.getBoolean(isLoggedIn , false);
+        if (isloggin){
+            Intent toHome = new Intent(MainActivity.this , ClientHome.class);
+            startActivity(toHome);
+            finish();
+        }
+    }
 
     String uId;
+    public static final String email = "EMAIL_PREF";
+    public static final String password = "PASS_PREF";
+    public static String isLoggedIn = "LOGIN_PREF";
+    public static final String mySharedPreference = "SHARED_PREF";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +71,27 @@ public class MainActivity extends AppCompatActivity {
         signUpBtn = findViewById(R.id.signUpTextViewId);
         btnLogin = findViewById(R.id.loginBtnID);
         progressBar = findViewById(R.id.progressbarId);
+        forgotPasswordTv = findViewById(R.id.forgotPasswordTextViewId);
+        forgotPasswordTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toForgotPasswod = new Intent(MainActivity.this, ForgotPassword.class);
+                if(TextUtils.isEmpty(emailET.getText().toString())){
+                    emailET.setError("Enter Your Email Here !");
+                }else{
+                    toForgotPasswod.putExtra("email" , emailET.getText().toString());
+                    startActivity(toForgotPasswod);
+                }
+
+            }
+        });
+        sharedPreferences = getSharedPreferences(mySharedPreference , Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toSignup = new Intent(MainActivity.this , apps.webscare.digitallawer.Activities.SignUp.class);
+                Intent toSignup = new Intent(MainActivity.this , SignUp.class);
                 startActivity(toSignup);
                 finish();
             }
@@ -70,7 +109,14 @@ public class MainActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
 
                 }else {
-                    mAuth.signInWithEmailAndPassword(emailET.getText().toString() , passwordET.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    editor.putString( email , emailET.getText().toString());
+                    editor.putString(password , passwordET.getText().toString());
+                    editor.putBoolean(isLoggedIn, true);
+                    editor.commit();
+                    Intent toHome = new Intent(MainActivity.this , ClientHome.class);
+                    startActivity(toHome);
+                    finish();
+                  /*  mAuth.signInWithEmailAndPassword(emailET.getText().toString() , passwordET.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
                             uId = mAuth.getCurrentUser().getUid();
@@ -96,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(MainActivity.this, "Unable To Login User", Toast.LENGTH_SHORT).show();
                         }
-                    });
+                    });*/
                 }
             }
         });

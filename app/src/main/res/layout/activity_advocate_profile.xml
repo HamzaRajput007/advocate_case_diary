@@ -31,17 +31,17 @@
     android:layout_height="0dp"
     android:padding="20dp"
     android:weightSum="10"
-    android:layout_weight="3"
+    android:layout_weight="5"
     android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="150dp"
+        android:layout_marginRight="20dp"
         android:layout_weight="4"
         app:cardElevation="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="60dp"
         app:cardCornerRadius="10dp"
-        android:elevation="10dp"
         >
         <ImageView
             android:layout_width="match_parent"
@@ -77,6 +77,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
+            android:id="@+id/contactMeBtnID"
             android:text="Contact Me"
             android:background="@drawable/btn_bg"
             android:textColor="@color/white"
@@ -91,6 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="7"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -138,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:text="SARGODHA"
-                android:id="@+id/profilePageCityTextViewId"
+                android:id="@+id/advocateCityTextViewId"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"/>
 
@@ -169,7 +171,7 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
+      <!--  <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
 
@@ -192,7 +194,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"/>
 
-        </RelativeLayout>
+        </RelativeLayout>-->
 
     </LinearLayout>
 
